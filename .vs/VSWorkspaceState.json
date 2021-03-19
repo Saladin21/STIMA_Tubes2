@@ -1,6 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\EchoChamber",
+    "\\EchoChamber\\EchoChamber"
   ],
+  "SelectedNode": "\\EchoChamber\\EchoChamber.sln",
   "PreviewInSolutionExplorer": false
 }

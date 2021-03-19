@@ -19,14 +19,12 @@ namespace EchoChamber
             graph.AddEdge("A", "B");
             graph.AddEdge("B", "C");
             //graph.PrintAll();
-            if (graph.FindVertex("A") == null)
-            {
-                Console.WriteLine("null");
-            }
-            //v = graph.GetNDegree(graph.FindVertex("A"), 0);
+            graph.FindVertex("A").Print();
+            v = graph.GetNDegree(graph.FindVertex("A"), 0);
 
             foreach(Vertex x in v)
             {
+                Console.WriteLine("Hasil: ");
                 x.Print();
             }
         }

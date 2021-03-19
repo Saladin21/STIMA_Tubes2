@@ -34,7 +34,7 @@ namespace EchoChamber
                     found1 = true;
                     temp1 = this.vertices[i];
                 }
-                else if (v2 == this.vertices[i]){
+                else if (v2.Name == this.vertices[i].Name){
                     found2 = true;
                     temp2 = this.vertices[i];
                 }
@@ -72,7 +72,6 @@ namespace EchoChamber
         {
             foreach(Vertex v in vertices)
             {
-                v.Print();
                 if (v.Name == name)
                 {
                     return v;

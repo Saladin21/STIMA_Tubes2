@@ -11,8 +11,12 @@ namespace EchoChamber
          string name;
          List<Vertex> edges;
 
-        public string Name { get; }
-        public List<Vertex> Edges { get; set; }
+        public string Name {
+            get { return name; }
+        }
+        public List<Vertex> Edges {
+            get { return edges; }
+            set { this.edges = value; } }
 
         public Vertex(string v)
         {
