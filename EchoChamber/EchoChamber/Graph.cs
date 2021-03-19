@@ -14,7 +14,6 @@ namespace EchoChamber
         public Graph(string v)
         {
             vertex = v;
-            edge
         }
 
     }
