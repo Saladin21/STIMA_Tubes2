@@ -8,5 +8,14 @@ namespace EchoChamber
 {
     class Graph
     {
+        string vertex;
+        Graph[] edge;
+
+        public Graph(string v)
+        {
+            vertex = v;
+            edge
+        }
+
     }
 }
