@@ -125,7 +125,7 @@ namespace EchoChamber
                     List<Vertex> tempv = new List<Vertex>(se.Value);
                     tempv.Add(se.Key);
 
-                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, tempv));
+                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
                 }
                 se = s.Pop();
             }
@@ -149,7 +149,7 @@ namespace EchoChamber
                     List<Vertex> tempv = new List<Vertex>(se.Value);
                     tempv.Add(se.Key);
 
-                    s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(v, tempv));
+                    s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
                 }
                 se = s.Dequeue();
             }
