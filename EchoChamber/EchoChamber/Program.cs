@@ -20,7 +20,7 @@ namespace EchoChamber
             graph.AddEdge("B", "C");
             //graph.PrintAll();
             graph.FindVertex("A").Print();
-            v = graph.GetNDegree(graph.FindVertex("A"), 0);
+            v = graph.GetNDegree(graph.FindVertex("A"), 1);
 
             foreach(Vertex x in v)
             {

@@ -96,5 +96,41 @@ namespace EchoChamber
                 return v;
             }
         }
+        public List<Vertex> MutualFriend(Vertex v1)
+        {
+            List<Vertex> v = new List<Vertex>();
+            foreach (Vertex ve in v1.Edges)
+            {
+                v = v.Union(ve.Edges).ToList();
+            }
+            v = v.Except(v1.Edges).ToList();
+            v.Remove(v1);
+            return v;
+        }
+
+        public List<Vertex> DFS(Vertex v, Vertex v1)
+        {
+            Stack <KeyValuePair<Vertex, List<Vertex>>> s = new Stack<KeyValuePair<Vertex, List<Vertex>>>();
+            List<Vertex> v2, v3 = new List<Vertex>();
+
+            s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
+
+            KeyValuePair<Vertex, List<Vertex>> se = s.Pop();
+            while (se.Key != v1)
+            {
+                v3.Add(se.Key);
+                v2 = se.Key.Edges.Except(v3).ToList();
+                foreach (Vertex ve in v2)
+                {
+                    List<Vertex> tempv = new List<Vertex>(se.Value);
+                    tempv.Add(se.Key);
+
+                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, tempv));
+                }
+                se = s.Pop();
+            }
+            
+            return se.Value;
+        }
     }
 }
