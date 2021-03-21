@@ -98,7 +98,7 @@ namespace EchoChamber
                 return v;
             }
         }
-        public List<Vertex> MutualFriend(Vertex v1)
+        public List<Vertex> FriendRec(Vertex v1)
         {
             List<Vertex> v = new List<Vertex>();
             foreach (Vertex ve in v1.Edges)
@@ -108,6 +108,11 @@ namespace EchoChamber
             v = v.Except(v1.Edges).ToList();
             v.Remove(v1);
             return v;
+        }
+
+        public List<Vertex> MutualFriend(Vertex v1, Vertex v2)
+        {   
+            return v1.Edges.Union(v2.Edges).ToList();
         }
 
         public List<Vertex> DFS(Vertex v, Vertex v1)
