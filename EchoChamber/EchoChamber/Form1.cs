@@ -15,10 +15,15 @@ namespace EchoChamber
         
         private Graph G;
         private string akunMutual;
+        private string akun1;
+        private string akun2;
+        private string algoritma;
 
         public Form1()
         {
             InitializeComponent();
+            comboBox4.Items.Add("BFS");
+            comboBox4.Items.Add("DFS");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -71,7 +76,11 @@ namespace EchoChamber
 
 
                 foreach (Vertex v in G.Vertices)
+                {
                     comboBox1.Items.Add(v.Name);
+                    comboBox2.Items.Add(v.Name);
+                    comboBox3.Items.Add(v.Name);
+                }
 
             }
         }
@@ -113,6 +122,44 @@ namespace EchoChamber
             }
             
             richTextBox1.Text = s;
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox2.Show();
+            akun1 = comboBox2.SelectedItem.ToString();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox3.Show();
+            akun2 = comboBox3.SelectedItem.ToString();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            string s;
+            if (algoritma == "BFS")
+            {
+                s = G.BFSString(G.FindVertex(akun1), G.FindVertex(akun2));
+            }
+            else
+            {
+                s = G.DFSString(G.FindVertex(akun1), G.FindVertex(akun2));
+            }
+
+            richTextBox2.Text = s;
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            comboBox4.Show();
+            algoritma = comboBox4.SelectedItem.ToString();
         }
     }
 }
