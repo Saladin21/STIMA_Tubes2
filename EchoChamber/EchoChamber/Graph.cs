@@ -146,6 +146,57 @@ namespace EchoChamber
             
             return se.Value;
         }
+
+        public string LangkahFS(KeyValuePair<Vertex, List<Vertex>> se)
+        {
+            string hasil = "";
+            hasil += se.Key.Name;
+            hasil += "(";
+            foreach (Vertex vV in se.Value)
+            {
+                hasil += vV.Name;
+            }
+            hasil += ")";
+            return hasil;
+
+        }
+        public string DFSString(Vertex v, Vertex v1)
+        {
+            string hasil = "";
+            Stack<KeyValuePair<Vertex, List<Vertex>>> s = new Stack<KeyValuePair<Vertex, List<Vertex>>>();
+            List<Vertex> v2, v3 = new List<Vertex>();
+
+            s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
+
+            KeyValuePair<Vertex, List<Vertex>> se = s.Pop();
+            while (se.Key != v1)
+            {
+                v3.Add(se.Key);
+                v2 = se.Key.Edges.Except(v3).ToList();
+                foreach (Vertex ve in v2)
+                {
+                    List<Vertex> tempv = new List<Vertex>(se.Value);
+                    tempv.Add(se.Key);
+
+                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
+                }
+                hasil += LangkahFS(se) + " : ";
+                foreach (KeyValuePair<Vertex, List<Vertex>> vS in s)
+                {
+                    hasil += LangkahFS(vS) + " ";
+                }
+                hasil += "\n";
+                se = s.Pop();
+            }
+            hasil += LangkahFS(se) + " : STOP!\n\n" + string.Format("koneksi level-{0}:\n", se.Value.Count);
+            foreach (Vertex vV in se.Value)
+            {
+                hasil += vV.Name + " -> ";
+            }
+            hasil += se.Key.Name;
+            return hasil;
+            //return se.Value;
+        }
         public List<Vertex> BFS(Vertex v, Vertex v1)
         {
             Queue<KeyValuePair<Vertex, List<Vertex>>> s = new Queue<KeyValuePair<Vertex, List<Vertex>>>();
@@ -169,6 +220,44 @@ namespace EchoChamber
             }
 
             return se.Value;
+        }
+
+        public string BFSString(Vertex v, Vertex v1)
+        {
+            string hasil = "";
+            Queue<KeyValuePair<Vertex, List<Vertex>>> s = new Queue<KeyValuePair<Vertex, List<Vertex>>>();
+            List<Vertex> v2, v3 = new List<Vertex>();
+
+            s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
+
+            KeyValuePair<Vertex, List<Vertex>> se = s.Dequeue();
+            while (se.Key != v1)
+            {
+                v3.Add(se.Key);
+                v2 = se.Key.Edges.Except(v3).ToList();
+                foreach (Vertex ve in v2)
+                {
+                    List<Vertex> tempv = new List<Vertex>(se.Value);
+                    tempv.Add(se.Key);
+
+                    s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
+                }
+                hasil += LangkahFS(se) + " : ";
+                foreach (KeyValuePair<Vertex, List<Vertex>> vS in s)
+                {
+                    hasil += LangkahFS(vS) + " ";
+                }
+                hasil += "\n";
+                se = s.Dequeue();
+            }
+            hasil += LangkahFS(se) + " : STOP!\n\n" + string.Format("koneksi level-{0}:\n", se.Value.Count);
+            foreach (Vertex vV in se.Value)
+            {
+                hasil += vV.Name + " -> ";
+            }
+            hasil += se.Key.Name;
+            return hasil;
+            //return se.Value;
         }
     }
 }
