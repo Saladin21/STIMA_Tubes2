@@ -98,10 +98,10 @@ namespace EchoChamber
                 return v;
             }
         }
-        public List<KeyValuePair<Vertex, List<Vertex>>> FriendRec(Vertex v1)
+        public Dictionary<Vertex, int> FriendRec(Vertex v1)
         {
-            List<Vertex> v = new List<Vertex>(), vf;
-            List<KeyValuePair<Vertex, List<Vertex>>> vr = new List<KeyValuePair<Vertex, List<Vertex>>>();
+            List<Vertex> v = new List<Vertex>();
+            Dictionary<Vertex, int> vr = new Dictionary<Vertex, int>();
             foreach (Vertex ve in v1.Edges)
             {
                 v = v.Union(ve.Edges).ToList();
@@ -111,8 +111,9 @@ namespace EchoChamber
 
             foreach(Vertex ve in v)
             {
-                vr.Add(new KeyValuePair<Vertex, List<Vertex>>(ve, MutualFriend(v1, ve)));
+                vr.Add(ve, MutualFriend(ve, v1).Count);
             }
+            vr.OrderBy(x => x.Value);
             return vr;
         }
 
