@@ -112,7 +112,7 @@ namespace EchoChamber
 
         public List<Vertex> MutualFriend(Vertex v1, Vertex v2)
         {   
-            return v1.Edges.Union(v2.Edges).ToList();
+            return v1.Edges.Intersect(v2.Edges).ToList();
         }
 
         public List<Vertex> DFS(Vertex v, Vertex v1)

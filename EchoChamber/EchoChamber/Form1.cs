@@ -93,12 +93,21 @@ namespace EchoChamber
 
         private void button3_Click(object sender, EventArgs e)
         {
-            List<Vertex> friends = G.MutualFriend(G.FindVertex(akunMutual));
+            List<Vertex> friends = G.FriendRec(G.FindVertex(akunMutual));
+            List<Vertex> mutual;
             string s = "Friend Recommendation:\n";
             foreach (Vertex v in friends)
             {
+            
                 s += v.Name;
-                s += "\n";
+                s += "\nMutual friends: ";
+                mutual = G.MutualFriend(v, G.FindVertex(akunMutual));
+                foreach (Vertex v1 in mutual)
+                {
+                    s += v1.Name;
+                    s += " ";
+                }
+                s += "\n\n";
             }
             
             richTextBox1.Text = s;
