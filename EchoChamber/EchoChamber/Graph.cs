@@ -98,16 +98,22 @@ namespace EchoChamber
                 return v;
             }
         }
-        public List<Vertex> FriendRec(Vertex v1)
+        public List<KeyValuePair<Vertex, List<Vertex>>> FriendRec(Vertex v1)
         {
-            List<Vertex> v = new List<Vertex>();
+            List<Vertex> v = new List<Vertex>(), vf;
+            List<KeyValuePair<Vertex, List<Vertex>>> vr = new List<KeyValuePair<Vertex, List<Vertex>>>();
             foreach (Vertex ve in v1.Edges)
             {
                 v = v.Union(ve.Edges).ToList();
             }
             v = v.Except(v1.Edges).ToList();
             v.Remove(v1);
-            return v;
+
+            foreach(Vertex ve in v)
+            {
+                vr.Add(new KeyValuePair<Vertex, List<Vertex>>(ve, MutualFriend(v1, ve)));
+            }
+            return vr;
         }
 
         public List<Vertex> MutualFriend(Vertex v1, Vertex v2)
