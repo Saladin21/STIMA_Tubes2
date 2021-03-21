@@ -10,6 +10,8 @@ namespace EchoChamber
     {
         List<Vertex> vertices;
 
+        public List<Vertex> Vertices { get { return this.vertices; } }
+
         public Graph()
         {
             vertices = new List<Vertex>();
