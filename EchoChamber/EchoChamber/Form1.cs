@@ -93,15 +93,17 @@ namespace EchoChamber
 
         private void button3_Click(object sender, EventArgs e)
         {
-            List<Vertex> friends = G.FriendRec(G.FindVertex(akunMutual));
+            Dictionary<Vertex, int> friends = G.FriendRec(G.FindVertex(akunMutual));
             List<Vertex> mutual;
             string s = "Friend Recommendation:\n";
-            foreach (Vertex v in friends)
+            foreach (KeyValuePair<Vertex, int> v in friends)
             {
             
-                s += v.Name;
-                s += "\nMutual friends: ";
-                mutual = G.MutualFriend(v, G.FindVertex(akunMutual));
+                s += v.Key.Name;
+                s += "\n";
+                s += v.Value.ToString();
+                s += " Mutual friends: ";
+                mutual = G.MutualFriend(v.Key, G.FindVertex(akunMutual));
                 foreach (Vertex v1 in mutual)
                 {
                     s += v1.Name;

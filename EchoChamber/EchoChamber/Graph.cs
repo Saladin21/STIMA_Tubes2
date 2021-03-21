@@ -113,7 +113,7 @@ namespace EchoChamber
             {
                 vr.Add(ve, MutualFriend(ve, v1).Count);
             }
-            vr.OrderBy(x => x.Value);
+            vr = vr.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
             return vr;
         }
 
