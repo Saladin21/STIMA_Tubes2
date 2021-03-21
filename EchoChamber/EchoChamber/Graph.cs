@@ -20,6 +20,7 @@ namespace EchoChamber
         public void AddVertex(Vertex v)
         {
             vertices.Add(v);
+            vertices.Sort((x, y) => x.Name.CompareTo(y.Name));
         }
 
         public void AddEdge(Vertex v1, Vertex v2)
