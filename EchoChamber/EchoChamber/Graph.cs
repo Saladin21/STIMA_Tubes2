@@ -174,6 +174,7 @@ namespace EchoChamber
             {
                 v3.Add(se.Key);
                 v2 = se.Key.Edges.Except(v3).ToList();
+                v2.Reverse();
                 foreach (Vertex ve in v2)
                 {
                     List<Vertex> tempv = new List<Vertex>(se.Value);
