@@ -18,16 +18,25 @@ namespace EchoChamber
         private string akun1;
         private string akun2;
         private string algoritma;
+        private Microsoft.Msagl.Drawing.Graph graph;
+        Microsoft.Msagl.GraphViewerGdi.GViewer viewer;
 
         public Form1()
         {
             InitializeComponent();
             comboBox4.Items.Add("BFS");
             comboBox4.Items.Add("DFS");
+            viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            
+            textBox1.Clear();
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
+            comboBox3.Items.Clear();
+            
             var FD = new System.Windows.Forms.OpenFileDialog();
             if (FD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -43,13 +52,13 @@ namespace EchoChamber
                 //etc
                 string n = reader.ReadLine();
                 int n1 = Int32.Parse(n);
-
-                G = new Graph();
+                Graph G1 = new Graph();
+                G = G1;
 
                 //create a viewer object 
-                Microsoft.Msagl.GraphViewerGdi.GViewer viewer = new Microsoft.Msagl.GraphViewerGdi.GViewer();
+                
                 //create a graph object 
-                Microsoft.Msagl.Drawing.Graph graph = new Microsoft.Msagl.Drawing.Graph("graph");
+                graph = new Microsoft.Msagl.Drawing.Graph("graph");
                 //create the graph content 
 
                 for (int i = 0; i < n1; i++)
@@ -69,6 +78,7 @@ namespace EchoChamber
                 //associate the viewer with the form 
                 pictureBox1.SuspendLayout();
                 viewer.Dock = System.Windows.Forms.DockStyle.Fill;
+                pictureBox1.Controls.Clear();
                 pictureBox1.Controls.Add(viewer);
                 pictureBox1.ResumeLayout();
                 //show the form 
@@ -104,14 +114,16 @@ namespace EchoChamber
         {
             Dictionary<Vertex, int> friends = G.FriendRec(G.FindVertex(akunMutual));
             List<Vertex> mutual;
+            clearGraph();
             string s = "Friend Recommendation:\n";
             foreach (KeyValuePair<Vertex, int> v in friends)
             {
-            
+
                 s += v.Key.Name;
                 s += "\n";
                 s += v.Value.ToString();
                 s += " Mutual friends: ";
+                graph.FindNode(v.Key.Name).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Cyan;
                 mutual = G.MutualFriend(v.Key, G.FindVertex(akunMutual));
                 foreach (Vertex v1 in mutual)
                 {
@@ -121,13 +133,15 @@ namespace EchoChamber
                 s += "\n\n";
             }
             
+        
+
             richTextBox1.Text = s;
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
 
         }
+            
+
+
+ 
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -143,23 +157,78 @@ namespace EchoChamber
 
         private void button4_Click(object sender, EventArgs e)
         {
+            clearGraph();
+            List<Vertex> lv;
             string s;
             if (algoritma == "BFS")
             {
+                lv = G.BFS(G.FindVertex(akun1), G.FindVertex(akun2));
                 s = G.BFSString(G.FindVertex(akun1), G.FindVertex(akun2));
             }
             else
             {
+                lv = G.DFS(G.FindVertex(akun1), G.FindVertex(akun2));
                 s = G.DFSString(G.FindVertex(akun1), G.FindVertex(akun2));
             }
 
             richTextBox2.Text = s;
+
+            
+            
+
+            lv.Add(G.FindVertex(akun2));
+            Microsoft.Msagl.Drawing.Node temp = null;
+            //list<Microsoft.Msagl.Drawing.Edge> temp = null;
+            foreach (Vertex v in lv)
+            {
+                if (temp != null)
+                {
+                    foreach (Microsoft.Msagl.Drawing.Edge edges in temp.Edges){
+                        if(edges.TargetNode == graph.FindNode(v.Name))
+                        {
+                            edges.Attr.Color = Microsoft.Msagl.Drawing.Color.Magenta;
+                        }
+                    }
+                }
+                graph.FindNode(v.Name).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Purple;
+                temp = graph.FindNode(v.Name);
+            }
+            viewer.Graph = graph;
+
+
+
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
         {
             comboBox4.Show();
             algoritma = comboBox4.SelectedItem.ToString();
+        }
+
+        private void clearGraph()
+        {
+            List<Microsoft.Msagl.Drawing.Node> L = graph.Nodes.ToList();
+            foreach (Microsoft.Msagl.Drawing.Node N in L)
+            {
+                N.Attr.FillColor = Microsoft.Msagl.Drawing.Color.White;
+            }
+            List<Microsoft.Msagl.Drawing.Edge> L1 = graph.Edges.ToList();
+            foreach (Microsoft.Msagl.Drawing.Edge N in L1)
+            {
+                N.Attr.Color = Microsoft.Msagl.Drawing.Color.Black;
+            }
+            viewer.Graph = graph;
+            
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            List<Microsoft.Msagl.Drawing.Node> L = graph.Nodes.ToList();
+            foreach (Microsoft.Msagl.Drawing.Node N in L)
+            {
+                N.Attr.FillColor = Microsoft.Msagl.Drawing.Color.Green;
+            }
+            viewer.Graph = graph;
         }
     }
 }

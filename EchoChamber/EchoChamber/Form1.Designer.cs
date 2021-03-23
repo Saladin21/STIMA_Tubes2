@@ -163,7 +163,6 @@
             this.label6.Size = new System.Drawing.Size(90, 17);
             this.label6.TabIndex = 16;
             this.label6.Text = "Pilih Akun 1: ";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7
             // 
@@ -257,7 +256,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button1);
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "EchoChamber";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
