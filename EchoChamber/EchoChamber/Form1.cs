@@ -183,10 +183,12 @@ namespace EchoChamber
             {
                 if (temp != null)
                 {
+                    
                     foreach (Microsoft.Msagl.Drawing.Edge edges in temp.Edges){
-                        if(edges.TargetNode == graph.FindNode(v.Name))
+                        if(edges.TargetNode == graph.FindNode(v.Name) || edges.SourceNode == graph.FindNode(v.Name))
                         {
                             edges.Attr.Color = Microsoft.Msagl.Drawing.Color.Magenta;
+                            
                         }
                     }
                 }
