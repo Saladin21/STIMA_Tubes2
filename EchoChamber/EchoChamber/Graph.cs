@@ -118,37 +118,6 @@ namespace EchoChamber
             return vr;
         }
 
-        public List<Vertex> MutualFriend(Vertex v1, Vertex v2)
-        {   
-            return v1.Edges.Intersect(v2.Edges).ToList();
-        }
-
-        public List<Vertex> DFS(Vertex v, Vertex v1)
-        {
-            Stack <KeyValuePair<Vertex, List<Vertex>>> s = new Stack<KeyValuePair<Vertex, List<Vertex>>>();
-            List<Vertex> v2, v3 = new List<Vertex>();
-
-            s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
-
-            KeyValuePair<Vertex, List<Vertex>> se = s.Pop();
-            while (se.Key != v1)
-            {
-                v3.Add(se.Key);
-                v2 = se.Key.Edges.Except(v3).ToList();
-                v2.Reverse();
-                foreach (Vertex ve in v2)
-                {
-                    List<Vertex> tempv = new List<Vertex>(se.Value);
-                    tempv.Add(se.Key);
-
-                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
-                }
-                se = s.Pop();
-            }
-            
-            return se.Value;
-        }
-
         public string LangkahFS(KeyValuePair<Vertex, List<Vertex>> se)
         {
             string hasil = "";
@@ -162,11 +131,56 @@ namespace EchoChamber
             return hasil;
 
         }
+
+        public List<Vertex> MutualFriend(Vertex v1, Vertex v2)
+        {   
+            return v1.Edges.Intersect(v2.Edges).ToList();
+        }
+
+        public List<Vertex> DFS(Vertex v, Vertex v1)
+        {
+            Stack <KeyValuePair<Vertex, List<Vertex>>> s = new Stack<KeyValuePair<Vertex, List<Vertex>>>();
+            List<Vertex> v2, v3 = new List<Vertex>();
+            bool putus = false;
+
+            s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
+
+            KeyValuePair<Vertex, List<Vertex>> se = s.Pop();
+            while (se.Key != v1 && !putus)
+            {
+                v3.Add(se.Key);
+                v2 = se.Key.Edges.Except(v3).ToList();
+                v2.Reverse();
+                foreach (Vertex ve in v2)
+                {
+                    List<Vertex> tempv = new List<Vertex>(se.Value);
+                    tempv.Add(se.Key);
+
+                    s.Push(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
+                }
+                if(s.Count == 0)
+                {
+                    putus = true;
+                }
+                else
+                {
+                    se = s.Pop();
+                }
+            }
+            if (putus)
+            {
+                return null;
+            }
+            return se.Value;
+        }
+
+        
         public string DFSString(Vertex v, Vertex v1)
         {
             string hasil = "";
             Stack<KeyValuePair<Vertex, List<Vertex>>> s = new Stack<KeyValuePair<Vertex, List<Vertex>>>();
             List<Vertex> v2, v3 = new List<Vertex>();
+            bool putus = false;
 
             s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
 
@@ -189,7 +203,14 @@ namespace EchoChamber
                     hasil += LangkahFS(vS) + " ";
                 }
                 hasil += "\n";
-                se = s.Pop();
+                if (s.Count == 0)
+                {
+                    putus = true;
+                }
+                else
+                {
+                    se = s.Pop();
+                }
             }
             hasil += LangkahFS(se) + " : STOP!\n\n" + string.Format("koneksi level-{0}:\n", se.Value.Count);
             foreach (Vertex vV in se.Value)
@@ -197,18 +218,22 @@ namespace EchoChamber
                 hasil += vV.Name + " -> ";
             }
             hasil += se.Key.Name;
+            if (putus)
+            {
+                return null;
+            }
             return hasil;
-            //return se.Value;
         }
         public List<Vertex> BFS(Vertex v, Vertex v1)
         {
             Queue<KeyValuePair<Vertex, List<Vertex>>> s = new Queue<KeyValuePair<Vertex, List<Vertex>>>();
             List<Vertex> v2, v3 = new List<Vertex>();
+            bool putus = false;
 
             s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
 
             KeyValuePair<Vertex, List<Vertex>> se = s.Dequeue();
-            while (se.Key != v1)
+            while (se.Key != v1 && !putus)
             {
                 v3.Add(se.Key);
                 v2 = se.Key.Edges.Except(v3).ToList();
@@ -219,9 +244,20 @@ namespace EchoChamber
 
                     s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(ve, tempv));
                 }
-                se = s.Dequeue();
+                if (s.Count == 0)
+                {
+                    putus = true;
+                }
+                else
+                {
+                    se = s.Dequeue();
+                }
             }
 
+            if (putus)
+            {
+                return null;
+            }
             return se.Value;
         }
 
@@ -230,11 +266,12 @@ namespace EchoChamber
             string hasil = "";
             Queue<KeyValuePair<Vertex, List<Vertex>>> s = new Queue<KeyValuePair<Vertex, List<Vertex>>>();
             List<Vertex> v2, v3 = new List<Vertex>();
+            bool putus = false;
 
             s.Enqueue(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
 
             KeyValuePair<Vertex, List<Vertex>> se = s.Dequeue();
-            while (se.Key != v1)
+            while (se.Key != v1 && !putus)
             {
                 v3.Add(se.Key);
                 v2 = se.Key.Edges.Except(v3).ToList();
@@ -251,7 +288,14 @@ namespace EchoChamber
                     hasil += LangkahFS(vS) + " ";
                 }
                 hasil += "\n";
-                se = s.Dequeue();
+                if (s.Count == 0)
+                {
+                    putus = true;
+                }
+                else
+                {
+                    se = s.Dequeue();
+                }
             }
             hasil += LangkahFS(se) + " : STOP!\n\n" + string.Format("koneksi level-{0}:\n", se.Value.Count);
             foreach (Vertex vV in se.Value)
@@ -259,6 +303,10 @@ namespace EchoChamber
                 hasil += vV.Name + " -> ";
             }
             hasil += se.Key.Name;
+            if (putus)
+            {
+                return null;
+            }
             return hasil;
             //return se.Value;
         }
