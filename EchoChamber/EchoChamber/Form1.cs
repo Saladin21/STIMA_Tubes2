@@ -132,11 +132,7 @@ namespace EchoChamber
                 }
                 s += "\n\n";
             }
-            
-        
-
             richTextBox1.Text = s;
-
         }
             
 
@@ -170,35 +166,43 @@ namespace EchoChamber
                 lv = G.DFS(G.FindVertex(akun1), G.FindVertex(akun2));
                 s = G.DFSString(G.FindVertex(akun1), G.FindVertex(akun2));
             }
-
-            richTextBox2.Text = s;
-
-            
-            
-
-            lv.Add(G.FindVertex(akun2));
-            Microsoft.Msagl.Drawing.Node temp = null;
-            //list<Microsoft.Msagl.Drawing.Edge> temp = null;
-            foreach (Vertex v in lv)
+            if(s == null)
             {
-                if (temp != null)
+                richTextBox2.Text = "kedua pengguna tidak berteman.";
+            }
+            else
+            {
+                richTextBox2.Text = s;
+            }
+            
+            if(lv == null)
+            {
+                clearGraph();
+            }
+            else
+            {
+                lv.Add(G.FindVertex(akun2));
+                Microsoft.Msagl.Drawing.Node temp = null;
+                //list<Microsoft.Msagl.Drawing.Edge> temp = null;
+                foreach (Vertex v in lv)
                 {
-                    
-                    foreach (Microsoft.Msagl.Drawing.Edge edges in temp.Edges){
-                        if(edges.TargetNode == graph.FindNode(v.Name) || edges.SourceNode == graph.FindNode(v.Name))
+                    if (temp != null)
+                    {
+
+                        foreach (Microsoft.Msagl.Drawing.Edge edges in temp.Edges)
                         {
-                            edges.Attr.Color = Microsoft.Msagl.Drawing.Color.Magenta;
-                            
+                            if (edges.TargetNode == graph.FindNode(v.Name) || edges.SourceNode == graph.FindNode(v.Name))
+                            {
+                                edges.Attr.Color = Microsoft.Msagl.Drawing.Color.Magenta;
+
+                            }
                         }
                     }
+                    graph.FindNode(v.Name).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Purple;
+                    temp = graph.FindNode(v.Name);
                 }
-                graph.FindNode(v.Name).Attr.FillColor = Microsoft.Msagl.Drawing.Color.Purple;
-                temp = graph.FindNode(v.Name);
+                viewer.Graph = graph;
             }
-            viewer.Graph = graph;
-
-
-
         }
 
         private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)

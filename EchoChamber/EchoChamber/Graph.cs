@@ -185,7 +185,7 @@ namespace EchoChamber
             s.Push(new KeyValuePair<Vertex, List<Vertex>>(v, new List<Vertex>()));
 
             KeyValuePair<Vertex, List<Vertex>> se = s.Pop();
-            while (se.Key != v1)
+            while (se.Key != v1 && !putus)
             {
                 v3.Add(se.Key);
                 v2 = se.Key.Edges.Except(v3).ToList();
