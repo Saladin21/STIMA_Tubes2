@@ -115,6 +115,7 @@ namespace EchoChamber
             Dictionary<Vertex, int> friends = G.FriendRec(G.FindVertex(akunMutual));
             List<Vertex> mutual;
             clearGraph();
+            graph.FindNode(akunMutual).Attr.FillColor = Microsoft.Msagl.Drawing.Color.LightGreen;
             string s = "Friend Recommendation:\n";
             foreach (KeyValuePair<Vertex, int> v in friends)
             {
@@ -133,6 +134,7 @@ namespace EchoChamber
                 s += "\n\n";
             }
             richTextBox1.Text = s;
+            
         }
             
 
@@ -174,8 +176,9 @@ namespace EchoChamber
             {
                 richTextBox2.Text = s;
             }
-            
-            if(lv == null)
+            richTextBox2.SelectionStart = richTextBox2.Text.Length;
+            richTextBox2.ScrollToCaret();
+            if (lv == null)
             {
                 clearGraph();
             }
@@ -202,6 +205,7 @@ namespace EchoChamber
                     temp = graph.FindNode(v.Name);
                 }
                 viewer.Graph = graph;
+                
             }
         }
 
